@@ -331,9 +331,7 @@
     <script>
         $('#table').dataTable({
             "responsive": true,
-            "lengthChange": false,
             "autoWidth": false,
-            "order": [0, 'desc']
         });
     </script>
 
