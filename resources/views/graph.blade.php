@@ -107,6 +107,9 @@
     <script src="/assets/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js" integrity="sha512-wUYbRPLV5zs6IqvWd88HIqZU/b8TBx+I8LEioQ/UC0t5EMCLApqhIAnUg7EsAzdbhhdgW07TqYDdH3QEXRcPOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
         $('#table').dataTable({
             "responsive": true,
@@ -198,7 +201,7 @@
     <script>
         const ctx = document.getElementById('graph');
 
-        new Chart(ctx, {
+        let chart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: @json($labels),
@@ -209,12 +212,24 @@
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        // beginAtZero: true
+                // scales: {
+                //     y: {
+                //         // beginAtZero: true
+                //     }
+                // }
+
+                plugins: {
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true
+                            }
+                        }
                     }
                 }
-            }
+
+            },
+
         });
     </script>
 </body>
