@@ -203,7 +203,7 @@
             data: {
                 labels: @json($labels),
                 datasets: [{
-                    label: '# of Votes',
+                    label: '# Receive Power',
                     data: @json($value),
                     borderWidth: 2
                 }]
