@@ -350,8 +350,8 @@
                                                 <td>{{ $no }}</td>
                                                 <td><a href="/graph/{{ $live->mac }}">{{ $live->name }}</a></td>
                                                 <td>{{ $live->mac }}</td>
-                                                <td>{{ $live->distance }}M</td>
-                                                <td>{{ $live->power }}dBm</td>
+                                                <td>{{ $live->distance }} M</td>
+                                                <td>{{ $live->power }} dBm</td>
                                             </tr>
                                             @php
                                                 $no++;
