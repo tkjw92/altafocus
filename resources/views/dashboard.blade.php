@@ -351,7 +351,7 @@
                                                 <td><a href="/graph/{{ $live->mac }}">{{ $live->name }}</a></td>
                                                 <td>{{ $live->mac }}</td>
                                                 <td>{{ $live->distance }} M</td>
-                                                <td>{{ $live->power }} dBm</td>
+                                                <td><span class="{{ $live->power < -26 ? 'bg-danger' : ($live->power < -19 ? 'bg-warning' : ($live->power < 0 ? 'bg-success' : '')) }} rounded px-2 py-1 text-white">{{ $live->power }} dBm</span></td>
                                             </tr>
                                             @php
                                                 $no++;
