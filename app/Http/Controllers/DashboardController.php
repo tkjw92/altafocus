@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use \RouterOS\Client;
 use \RouterOS\Query;
+use \RouterOS\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -22,7 +23,9 @@ class DashboardController extends Controller
         $profiles = $client->query('/ppp/profile/print')->read();
         $resources = $client->query('/system/resource/print')->read()[0];
 
-        return view('dashboard', compact('clients', 'actives', 'profiles', 'resources'));
+        $lives = DB::table('live')->get();
+
+        return view('dashboard', compact('clients', 'actives', 'profiles', 'resources', 'lives'));
     }
 
     public function add(Request $request)
@@ -101,5 +104,20 @@ class DashboardController extends Controller
             session()->flush();
         }
         return redirect('/');
+    }
+
+    public function graph($mac)
+    {
+        $client = new Client([
+            'host' => env('ROUTER_HOST'),
+            'user' => env('ROUTER_USER'),
+            'pass' => env('ROUTER_PASSWORD'),
+            'port' => intval(env('ROUTER_PORT'))
+        ]);
+
+        $resources = $client->query('/system/resource/print')->read()[0];
+        $data = DB::table('data')->where('mac', $mac)->orderByDesc('id')->get();
+
+        return view('graph', compact('resources', 'data'));
     }
 }

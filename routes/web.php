@@ -19,6 +19,8 @@ Route::middleware('check')->group(function () {
     Route::post('/', [DashboardController::class, 'add']);
     Route::put('/', [DashboardController::class, 'edit']);
     Route::delete('/', [DashboardController::class, 'remove']);
+
+    Route::get('/graph/{mac}', [DashboardController::class, 'graph']);
 });
 
 Route::get('/login', [DashboardController::class, 'login']);
