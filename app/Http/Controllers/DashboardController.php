@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use \RouterOS\Query;
 use \RouterOS\Client;
 use Illuminate\Http\Request;
@@ -106,7 +107,7 @@ class DashboardController extends Controller
         return redirect('/');
     }
 
-    public function graph($mac)
+    public function graph($mac, $day)
     {
         $client = new Client([
             'host' => env('ROUTER_HOST'),
@@ -115,9 +116,13 @@ class DashboardController extends Controller
             'port' => intval(env('ROUTER_PORT'))
         ]);
 
-        $resources = $client->query('/system/resource/print')->read()[0];
-        $data = DB::table('data')->where('mac', $mac)->orderByDesc('id')->get();
+        // $resources = $client->query('/system/resource/print')->read()[0];
+        // $data = DB::table('data')->where('mac', $mac)->orderByDesc('id')->get();
 
-        return view('graph', compact('resources', 'data'));
+        $end = Carbon::now();
+        $start = $end->copy()->subDays($day);
+        $data = DB::table('data')->whereBetween('timestamp', [$start->startOfDay(), $end->endOfDay()])->where('mac', $mac)->orderByDesc('id')->get();
+
+        return view('graph', compact('data', 'mac', 'day'));
     }
 }

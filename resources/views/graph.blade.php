@@ -59,13 +59,23 @@
     </nav>
 
     <div class="container-fluid">
+        <div class="row px-3 mb-5">
+            <div class="form-group">
+                <select id="shortDays" class="form-control">
+                    <option value="30">Last 30 days</option>
+                    <option value="7">Last 7 days</option>
+                    <option value="0">Now</option>
+                </select>
+            </div>
+        </div>
+
         <div class="row px-3">
             <canvas id="graph"></canvas>
         </div>
 
-        <div class="row mx-3 mt-2">
+        <div class="row mx-3">
             <div class="col px-0">
-                <div class="card border-top-0">
+                <div class="card mt-3">
                     <div class="card-body overflow-x-scroll">
                         <table class="table table-striped w-100" id="table">
                             <thead>
@@ -114,6 +124,10 @@
         $('#table').dataTable({
             "responsive": true,
             "autoWidth": false,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, 'All']
+            ]
         });
     </script>
 
@@ -219,6 +233,9 @@
                 // }
 
                 plugins: {
+                    legend: {
+                        display: false,
+                    },
                     zoom: {
                         zoom: {
                             wheel: {
@@ -231,6 +248,14 @@
             },
 
         });
+    </script>
+
+    <script>
+        const shortDays = document.getElementById('shortDays');
+        shortDays.value = {{ $day }};
+        shortDays.addEventListener('change', () => {
+            location.href = '/graph/{{ $mac }}/' + shortDays.value;
+        })
     </script>
 </body>
 
