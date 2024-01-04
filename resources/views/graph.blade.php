@@ -7,6 +7,7 @@
     <title>{{ env('APP_NAME') }}</title>
     <link rel="stylesheet" href="/assets/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.css" rel="stylesheet"> --}}
 
     <style>
@@ -60,7 +61,9 @@
 
     <div class="container-fluid">
         <div class="row px-3 mb-5">
-            <div class="form-group">
+            {{-- <a class="col-1 btn btn-primary" href="#"><i class="fas fa-long-arrow-alt-left"></i></a> --}}
+            <a class="col-1 btn btn-primary" href="/"><i class="fs-4 fas fa-long-arrow-alt-left"></i></a>
+            <div class="form-group col">
                 <select id="shortDays" class="form-control">
                     <option value="30">Last 30 days</option>
                     <option value="7">Last 7 days</option>
