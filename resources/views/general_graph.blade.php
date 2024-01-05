@@ -96,8 +96,8 @@
                                 @foreach ($data as $i)
                                     <tr>
                                         <td>{{ $no }}</td>
-                                        <td>{{ round(intval($i->rx) * 0.000001, 3) }}</td>
-                                        <td>{{ round(intval($i->tx) * 0.000001, 3) }}</td>
+                                        <td>{{ round(intval($i->rx) * 0.000001, 3) }} Mbps</td>
+                                        <td>{{ round(intval($i->tx) * 0.000001, 3) }} Mbps</td>
                                         <td>{{ $i->timestamp }}</td>
                                     </tr>
 
