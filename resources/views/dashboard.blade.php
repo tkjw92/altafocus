@@ -116,10 +116,11 @@
                                             {{-- <th style="width: 50px">#</th> --}}
                                             <th>#</th>
                                             <th>Status</th>
-                                            <th>Client Name</th>
                                             <th>Username</th>
                                             <th>Profile</th>
                                             <th>Address</th>
+                                            <th>Rx</th>
+                                            <th>Tx</th>
                                             <th>Remote</th>
                                             {{-- <th style="width: 150px">Action</th> --}}
                                             <th>Action</th>
@@ -141,6 +142,15 @@
                                                     }
                                                 }
 
+                                                $rx = 0;
+                                                $tx = 0;
+                                                foreach ($traffic_live as $i) {
+                                                    if ($client['name'] == $i->username) {
+                                                        $rx = round(intval($i->rx) * 0.000001, 3);
+                                                        $tx = round(intval($i->tx) * 0.000001, 3);
+                                                    }
+                                                }
+
                                             @endphp
 
                                             <tr>
@@ -156,10 +166,11 @@
                                                         </svg> Down
                                                     @endif
                                                 </td>
-                                                <td>{{ $client['comment'] ?? '' }}</td>
-                                                <td>{{ $client['name'] }}</td>
+                                                <td><a href="/general-graph/{{ $client['name'] }}/30">{{ $client['name'] }}</a></td>
                                                 <td>{{ $client['profile'] }}</td>
                                                 <td>{{ $address }}</td>
+                                                <td>{{ $rx }} Mbps</td>
+                                                <td>{{ $tx }} Mbps</td>
                                                 <td>
                                                     @if ($isActive)
                                                         <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#remoteModal{{ str_replace('*', '', $client['.id']) }}">

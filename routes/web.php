@@ -21,6 +21,7 @@ Route::middleware('check')->group(function () {
     Route::delete('/', [DashboardController::class, 'remove']);
 
     Route::get('/graph/{mac}/{day}', [DashboardController::class, 'graph']);
+    Route::get('/general-graph/{username}/{day}', [DashboardController::class, 'general_graph']);
 });
 
 Route::get('/login', [DashboardController::class, 'login']);

@@ -26,7 +26,9 @@ class DashboardController extends Controller
 
         $lives = DB::table('live')->get();
 
-        return view('dashboard', compact('clients', 'actives', 'profiles', 'resources', 'lives'));
+        $traffic_live = DB::table('traffic_data')->get();
+
+        return view('dashboard', compact('clients', 'actives', 'profiles', 'resources', 'lives', 'traffic_live'));
     }
 
     public function add(Request $request)
@@ -109,20 +111,19 @@ class DashboardController extends Controller
 
     public function graph($mac, $day)
     {
-        $client = new Client([
-            'host' => env('ROUTER_HOST'),
-            'user' => env('ROUTER_USER'),
-            'pass' => env('ROUTER_PASSWORD'),
-            'port' => intval(env('ROUTER_PORT'))
-        ]);
-
-        // $resources = $client->query('/system/resource/print')->read()[0];
-        // $data = DB::table('data')->where('mac', $mac)->orderByDesc('id')->get();
-
         $end = Carbon::now();
         $start = $end->copy()->subDays($day);
         $data = DB::table('data')->whereBetween('timestamp', [$start->startOfDay(), $end->endOfDay()])->where('mac', $mac)->orderByDesc('id')->get();
 
         return view('graph', compact('data', 'mac', 'day'));
+    }
+
+    public function general_graph($username, $day)
+    {
+        $end = Carbon::now();
+        $start = $end->copy()->subDays($day);
+        $data = DB::table('traffic_data')->whereBetween('timestamp', [$start->startOfDay(), $end->endOfDay()])->where('username', $username)->orderByDesc('id')->get();
+
+        return view('general_graph', compact('data', 'username', 'day'));
     }
 }
