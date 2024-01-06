@@ -72,8 +72,8 @@
             </div>
         </div>
 
-        <div class="row px-3">
-            <canvas id="graph"></canvas>
+        <div class="container px-3">
+            {!! $chart->container() !!}
         </div>
 
         <div class="row mx-3">
@@ -116,12 +116,7 @@
 
     <script src="/assets/bootstrap.bundle.min.js"></script>
     <script src="/assets/jquery.min.js"></script>
-    {{-- <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.js"></script> --}}
     <script src="/assets/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js" integrity="sha512-wUYbRPLV5zs6IqvWd88HIqZU/b8TBx+I8LEioQ/UC0t5EMCLApqhIAnUg7EsAzdbhhdgW07TqYDdH3QEXRcPOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         $('#table').dataTable({
@@ -206,52 +201,8 @@
         });
     </script>
 
-    @php
-        $labels = [];
-        $value = [];
-        foreach ($data as $label) {
-            array_push($labels, $label->timestamp);
-            array_push($value, $label->power);
-        }
-    @endphp
-
-    <script>
-        const ctx = document.getElementById('graph');
-
-        let chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: @json($labels),
-                datasets: [{
-                    label: '# Receive Power',
-                    data: @json($value),
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                // scales: {
-                //     y: {
-                //         // beginAtZero: true
-                //     }
-                // }
-
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    zoom: {
-                        zoom: {
-                            wheel: {
-                                enabled: true
-                            }
-                        }
-                    }
-                }
-
-            },
-
-        });
-    </script>
+    <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
 
     <script>
         const shortDays = document.getElementById('shortDays');

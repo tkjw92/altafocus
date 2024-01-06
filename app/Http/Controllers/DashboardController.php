@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\oltChart;
+use App\Charts\trafficChart;
 use Carbon\Carbon;
 use \RouterOS\Query;
 use \RouterOS\Client;
@@ -109,21 +111,25 @@ class DashboardController extends Controller
         return redirect('/');
     }
 
-    public function graph($mac, $day)
+    public function graph($mac, $day, oltChart $chart)
     {
         $end = Carbon::now();
         $start = $end->copy()->subDays($day);
         $data = DB::table('data')->whereBetween('timestamp', [$start->startOfDay(), $end->endOfDay()])->where('mac', $mac)->orderByDesc('id')->get();
 
-        return view('graph', compact('data', 'mac', 'day'));
+        $chart = $chart->build($mac, $day);
+
+        return view('graph', compact('data', 'mac', 'day', 'chart'));
     }
 
-    public function general_graph($username, $day)
+    public function general_graph($username, $day, trafficChart $chart)
     {
         $end = Carbon::now();
         $start = $end->copy()->subDays($day);
         $data = DB::table('traffic_data')->whereBetween('timestamp', [$start->startOfDay(), $end->endOfDay()])->where('username', $username)->orderByDesc('id')->get();
 
-        return view('general_graph', compact('data', 'username', 'day'));
+        $chart = $chart->build($username, $day);
+
+        return view('general_graph', compact('data', 'username', 'day', 'chart'));
     }
 }
